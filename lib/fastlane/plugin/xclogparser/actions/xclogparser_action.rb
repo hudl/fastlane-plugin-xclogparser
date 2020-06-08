@@ -13,7 +13,7 @@ module Fastlane
         if command.eql?('parse')
           options = params[:options]
           if options == "" || options == [] || options.nil?
-            UI.user_error!("--reporter and oreporterne of --file, --project, --workspace, --xcodeproj parameters is required.\nSee https://github.com/spotify/XCLogParser#parse-command for more information about the Parse command.")
+            UI.user_error!("--reporter and one of --file, --project, --workspace, --xcodeproj parameters is required.\nSee https://github.com/spotify/XCLogParser#parse-command for more information about the Parse command.")
           end
           options = format_options(options)
         end
@@ -30,8 +30,7 @@ module Fastlane
         end
 
         if params[:zip_html_report]
-          report_path = parse_output_for_html_report(xclogparse_output)
-          report_directory = File.dirname(report_path)
+          report_directory = File.dirname(parse_output_for_html_report(xclogparse_output))
           report_time = Time.parse(File.basename(report_directory))
           zip_name = "xclogparser_report_#{report_time.strftime('%Y-%m-%d-%H%M%S')}.zip"
           zip_path = File.join(Dir.pwd, zip_name)
@@ -52,6 +51,7 @@ module Fastlane
       end
 
       def self.parse_output_for_html_report(unparsed_output)
+        # XCLogParser outputs a formatted string to the report path.
         unparsed_output.split("Report written to ")[1]
       end
 
