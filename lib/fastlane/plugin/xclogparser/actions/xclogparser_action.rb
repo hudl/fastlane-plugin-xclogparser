@@ -24,7 +24,7 @@ module Fastlane
           xclogparse_output = Action.sh(xclogparse_command)
         rescue FastlaneCore::Interface::FastlaneShellError => e
           if e.message.include?("//Logs/Build")
-            UI.error("Since Xcode 11, xcodebuild only generates the .xcactivitylog build logs when the option --resultBundlePath. If you're compiling with that command and not with Xcode, be sure to set that option to a valid path")
+            UI.error("Since Xcode 11, `xcodebuild` only generates the .xcactivitylog build logs when the option --resultBundlePath. If you're compiling with that command and not with Xcode, be sure to set that option to a valid path")
           end
           UI.user_error!(e.message)
         end
@@ -70,18 +70,18 @@ module Fastlane
       def self.available_options
         [
           FastlaneCore::ConfigItem.new(key: :command,
-                                       description: "XCLogParse command. Run `xclogparse help` to list availabel commands",
+                                       description: "XCLogParse command to execute. Run `xclogparse help` to list available commands",
                                        default_value: "parse",
                                        type: String),
           FastlaneCore::ConfigItem.new(key: :options,
-                                       description: "Options for the XCLogParse command",
+                                       description: "Options for the XCLogParse command. Can be a string for a single option or a list of options",
                                        is_string: false,
                                        optional: true,
                                        verify_block: proc do |value|
                                          UI.user_error!("Invalid option: #{value.inspect}, must be an Array or String") unless value.instance_of?(String) || value.instance_of?(Array)
                                        end),
           FastlaneCore::ConfigItem.new(key: :zip_html_report,
-                                       description: "Zip HTML report for transport",
+                                       description: "Zip Html if generated",
                                        is_string: false,
                                        default_value: false,
                                        optional: true)
