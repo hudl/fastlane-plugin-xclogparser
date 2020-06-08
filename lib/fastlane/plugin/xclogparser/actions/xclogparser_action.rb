@@ -12,7 +12,7 @@ module Fastlane
 
         if command.eql?('parse')
           options = params[:options]
-          if options == "" || options == [] || options == nil
+          if options == "" || options == [] || options.nil?
             UI.user_error!("--reporter and oreporterne of --file, --project, --workspace, --xcodeproj parameters is required.\nSee https://github.com/spotify/XCLogParser#parse-command for more information about the Parse command.")
           end
           options = format_options(options)
@@ -33,7 +33,7 @@ module Fastlane
           report_path = parse_output_for_html_report(xclogparse_output)
           report_directory = File.dirname(report_path)
           report_time = Time.parse(File.basename(report_directory))
-          zip_name = "xclogparser_report_#{report_time.strftime("%Y-%m-%d-%H%M%S")}.zip"
+          zip_name = "xclogparser_report_#{report_time.strftime('%Y-%m-%d-%H%M%S')}.zip"
           zip_path = File.join(Dir.pwd, zip_name)
           Dir.chdir(report_directory) do
             Action.sh("zip -r -X #{zip_path} .")
@@ -77,11 +77,9 @@ module Fastlane
                                        description: "Options for the XCLogParse command",
                                        is_string: false,
                                        optional: true,
-                                       verify_block: -> (value) {
-                                        case value when String; when Array;
-                                          else  UI.user_error! "Invalid option: #{value.inspect}, must be an Array or String"
-                                        end
-                                       }),
+                                       verify_block: proc do |value|
+                                         UI.user_error!("Invalid option: #{value.inspect}, must be an Array or String") unless value.instance_of?(String) || value.instance_of?(Array)
+                                       end),
           FastlaneCore::ConfigItem.new(key: :zip_html_report,
                                        description: "Zip HTML report for transport",
                                        is_string: false,
@@ -91,11 +89,7 @@ module Fastlane
       end
 
       def self.is_supported?(platform)
-        # Adjust this if your plugin only works for a particular platform (iOS vs. Android, for example)
-        # See: https://docs.fastlane.tools/advanced/#control-configuration-by-lane-and-by-platform
-        #
-        # [:ios, :mac, :android].include?(platform)
-        true
+        [:ios, :mac].include?(platform)
       end
     end
   end

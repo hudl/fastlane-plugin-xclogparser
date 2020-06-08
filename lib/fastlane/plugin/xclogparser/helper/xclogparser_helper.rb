@@ -21,13 +21,13 @@ module Fastlane
       def self.check_for_updates(installed_version)
         command = ['brew', 'outdated', 'xclogparser', '--json']
         # Brew returns a non-zero exit code if the formula is outdated
-        res = Actions.sh(command, log: false, error_callback: ->(result) {error_occurred = true})
+        res = Actions.sh(command, log: false, error_callback: ->(result) {})
         json_res = JSON.parse(res)
         return if json_res.empty?
         UI.important("\n#############################################################\n"\
                      "#  XCLogParser #{json_res[0]['current_version']} is available. You are on #{installed_version}.\n"\
                      "#  You can update using `brew upgrade xclogparser`    "\
-                     "\n############################################################")
+                     "\n#############################################################")
       end
     end
   end
