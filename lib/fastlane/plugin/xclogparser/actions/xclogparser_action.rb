@@ -34,10 +34,11 @@ module Fastlane
           report_directory = File.dirname(report_path)
           report_time = Time.parse(File.basename(report_directory))
           zip_name = "xclogparser_report_#{report_time.strftime("%Y-%m-%d-%H%M%S")}.zip"
-          root_dir = Dir.pwd
+          zip_path = File.join(Dir.pwd, zip_name)
           Dir.chdir(report_directory) do
-            Action.sh("zip -r -X #{File.join(root_dir, zip_name)} .")
+            Action.sh("zip -r -X #{zip_path} .")
           end
+          xclogparse_output = zip_path
         end
         xclogparse_output
       end
