@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.author        = 'Josh Lesch'
   spec.email         = 'josh.lesch@hudl.com'
 
-  spec.summary       = 'Parse Xcode and xcodebuild build and test logs with XCLogParser'
-  # spec.homepage      = "https://github.com/<GITHUB_USERNAME>/fastlane-plugin-xclogparser"
+  spec.summary       = 'Parse Xcode or xcodebuild build and test logs with XCLogParser'
+  spec.homepage      = "https://github.com/hudl/fastlane-plugin-xclogparser"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)

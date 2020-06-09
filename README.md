@@ -14,6 +14,8 @@ fastlane add_plugin xclogparser
 
 [XCLogParser](https://github.com/spotify/XCLogParser) is a CLI tool that parses the SLF serialization format used by Xcode and xcodebuild to store its Build and Test logs (xcactivitylog files). This plugin provides an easy way to run XCLogParser against your builds.
 
+It is a prerequisite that `XCLogParser` is installed globally on the same machine that will be executing your Fastfile. You can find the install instruction [here](https://github.com/spotify/XCLogParser#installation) or install with `brew install xclogparser`
+
 ## Run tests for this plugin
 
 To run both the tests, and code style validation, run
